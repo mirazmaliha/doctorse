@@ -37,7 +37,18 @@ client.connect()
             res.status(5000);
         })
      })
-       
+       app.get('/myAppoitment', (req, res)=> {
+      const email = req.query.email;
+      console.log(email)
+      userAppoitmentCollection.find({email:email}).toArray()
+      .then(result => {
+        res.json(result)
+      })
+      .catch(err => {
+        res.status(500)
+      })
+     })
+     
     app.get('/', (req, res)=> {
       res.json({meassage:'welcome'})
     })
