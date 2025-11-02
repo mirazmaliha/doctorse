@@ -24,6 +24,7 @@ client.connect()
   .then(() => {
     console.log("✅ MongoDB connected successfully!");
     const userAppoitmentCollection = client.db("doctorse").collection("userAppoitment");
+    const patientReview = client.db("doctorse").collection("patientReview");
   
      app.post('/userAppoitment', (req, res)=> {
         const data = req.body;
@@ -47,6 +48,26 @@ client.connect()
       .catch(err => {
         res.status(500)
       })
+     })
+     app.delete('/deleteAppotment/:id', (req, res)=> {
+      const id = req.params.id;
+      userAppoitmentCollection.deleteOne({_id:new ObjectId(id)})
+      .then(result => {
+        res.json(result)
+      })
+      .catch(err => {
+        res.status(500).send('some err');
+      })
+     })
+     app.post('/coustomarReview', (req, res)=> {
+      const data = req.body;
+       patientReview.insertOne(data)
+       .then(result => {
+        res.json(result)
+       })
+       .catch(err => {
+        res.status(500).send({meassage:'you faild to send review'})
+       })
      })
      
     app.get('/', (req, res)=> {
