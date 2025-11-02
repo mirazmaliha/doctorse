@@ -69,7 +69,15 @@ client.connect()
         res.status(500).send({meassage:'you faild to send review'})
        })
      })
-     
+     app.get('/showReview', (req, res)=> {
+      patientReview.find({}).limit(4).toArray()
+      .then(result => {
+        res.json(result);
+      })
+      .catch(err => {
+        res.status(500).send({meassage:'some error .'})
+      })
+     })
     app.get('/', (req, res)=> {
       res.json({meassage:'welcome'})
     })
